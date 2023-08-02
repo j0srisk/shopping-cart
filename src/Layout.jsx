@@ -1,10 +1,10 @@
-import Navbar from "./Navbar";
+import Navbar from "./components/Navbar";
 
 const Layout = ({ children }) => {
 	return (
-		<div>
+		<div className="flex min-h-screen flex-col">
 			<Navbar />
-			<div>{children}</div>
+			<div className="flex flex-1 justify-center">{children}</div>
 		</div>
 	);
 };
