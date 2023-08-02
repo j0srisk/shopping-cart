@@ -1,9 +1,14 @@
+import Router from "./Router";
+
+import Navbar from "./Navbar";
+
 function App() {
-  return (
-    <div>
-      <h1 className="font-bold">Template React Tailwind</h1>
-    </div>
-  );
+	return (
+		<div>
+			<Navbar />
+			<Router />
+		</div>
+	);
 }
 
 export default App;
