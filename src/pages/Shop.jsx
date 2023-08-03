@@ -1,31 +1,10 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useContext } from "react";
+import { ShopContext } from "../App";
 
 import ProductCard from "../components/ProductCard";
 
 const Shop = () => {
-	const [products, setProducts] = useState([]);
-	const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		// Fetch data from the API
-		axios
-			.get("https://fakestoreapi.com/products")
-			.then((response) => {
-				console.log(response);
-				setProducts(response.data);
-				setLoading(false);
-			})
-			.catch((error) => {
-				console.error("Error fetching data:", error);
-				alert("Error fetching data", error);
-				setLoading(false);
-			});
-	}, []);
-
-	if (loading) {
-		return <p>Loading...</p>;
-	}
+	const { products } = useContext(ShopContext);
 
 	return (
 		<div className="flex justify-center px-4 py-6">

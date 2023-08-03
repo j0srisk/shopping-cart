@@ -1,21 +1,15 @@
-const Cart = ({ shoppingCart, setShoppingCart }) => {
-	function removeFromCart(product) {
-		console.log("Removing from cart:", product);
-		const index = shoppingCart.findIndex((item) => item.product.id === product.id);
-		if (index === -1) {
-			return;
-		}
-		const newShoppingCart = [...shoppingCart];
-		newShoppingCart.splice(index, 1);
-		setShoppingCart(newShoppingCart);
-	}
+import { useContext } from "react";
+import { ShopContext } from "../App";
+
+const Cart = () => {
+	const { cartItems } = useContext(ShopContext);
 
 	return (
 		<div className="flex w-full justify-center px-4 py-6">
 			<div className="flex w-full max-w-screen-lg flex-col gap-6">
 				<h1 className="text-4xl font-bold">Shop Items</h1>
 				<ul className="flex w-full flex-col gap-6 divide-y divide-gray-200 ">
-					{shoppingCart.map((item, index) => (
+					{cartItems.map((item, index) => (
 						<li key={index} className="flex flex-1 gap-6 pt-6">
 							<div className="flex h-28 w-28 justify-center rounded-md bg-white shadow-sm ring-1 ring-inset ring-gray-300">
 								<img src={item.product.image} alt="product" className="object-scale-down p-6" />
@@ -34,10 +28,7 @@ const Cart = ({ shoppingCart, setShoppingCart }) => {
 									{" "}
 									${(item.product.price * item.quantity).toFixed(2)}
 								</p>
-								<button
-									onClick={() => removeFromCart(item.product)}
-									className="text-sm text-gray-800 transition-all duration-300 ease-in-out hover:underline"
-								>
+								<button className="text-sm text-gray-800 transition-all duration-300 ease-in-out hover:underline">
 									Remove
 								</button>
 							</div>
@@ -48,7 +39,7 @@ const Cart = ({ shoppingCart, setShoppingCart }) => {
 					<p className="text-2xl font-bold">Subtotal: </p>
 					<p className="text-3xl font-bold">
 						$
-						{shoppingCart
+						{cartItems
 							.reduce((total, item) => total + item.product.price * item.quantity, 0)
 							.toFixed(2)}
 					</p>

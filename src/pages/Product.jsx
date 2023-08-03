@@ -1,31 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
+import { ShopContext } from "../App";
 
-const Product = ({ addToCart }) => {
-	const { productId } = useParams(); // Get the productId from the URL
-	const [product, setProduct] = useState(null);
+const Product = () => {
 	const [quantity, setQuantity] = useState(1);
-	const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		// Fetch data from the API
-		axios
-			.get(`https://fakestoreapi.com/products/${productId}`)
-			.then((response) => {
-				setProduct(response.data);
-				setLoading(false);
-			})
-			.catch((error) => {
-				console.error("Error fetching data:", error);
-				alert("Error fetching data", error);
-				setLoading(false);
-			});
-	}, []);
-
-	if (loading) {
-		return <p>Loading...</p>;
-	}
+	const { products, addToCart } = useContext(ShopContext);
+	const productID = useParams().productId;
+	const product = products.find((product) => product.id === parseInt(productID));
 
 	return (
 		<div className="flex flex-1 justify-center px-4 py-6">
