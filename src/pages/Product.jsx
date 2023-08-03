@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 
-const Product = () => {
+const Product = ({ addToCart }) => {
 	const { productId } = useParams(); // Get the productId from the URL
 	const [product, setProduct] = useState(null);
+	const [quantity, setQuantity] = useState(1);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
@@ -48,7 +49,27 @@ const Product = () => {
 						<p className="text-2xl font-bold"> ${product.price.toFixed(2)}</p>
 						<p className="text-sm">{product.description}</p>
 
-						<button className="mt-4 rounded-md bg-gray-800 px-4 py-2 text-white shadow-sm hover:bg-gray-700">
+						<div className="flex items-center gap-4">
+							<button
+								className="rounded-md bg-gray-800 px-4 py-2 text-white shadow-sm hover:bg-gray-700"
+								onClick={() => setQuantity(quantity - 1)}
+								disabled={quantity === 1}
+							>
+								-
+							</button>
+							<p className="text-xl">{quantity}</p>
+							<button
+								className="rounded-md bg-gray-800 px-4 py-2 text-white shadow-sm hover:bg-gray-700"
+								onClick={() => setQuantity(quantity + 1)}
+							>
+								+
+							</button>
+						</div>
+
+						<button
+							onClick={() => addToCart(product, quantity)}
+							className="mt-4 rounded-md bg-gray-800 px-4 py-2 text-white shadow-sm hover:bg-gray-700"
+						>
 							Add to Cart
 						</button>
 					</div>
