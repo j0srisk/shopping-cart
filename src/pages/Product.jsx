@@ -1,9 +1,18 @@
-import { useState, useContext } from "react";
+import { useContext, useReducer } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ShopContext } from "../App";
 
 const Product = () => {
-	const [quantity, setQuantity] = useState(1);
+	const [quantity, dispatch] = useReducer((state, action) => {
+		switch (action.type) {
+			case "increment":
+				return state + 1;
+			case "decrement":
+				return state - 1;
+			default:
+				return state;
+		}
+	}, 1);
 	const { products, addToCart } = useContext(ShopContext);
 	const productID = useParams().productId;
 	const product = products.find((product) => product.id === parseInt(productID));
@@ -33,7 +42,7 @@ const Product = () => {
 						<div className="flex items-center gap-4">
 							<button
 								className="rounded-md bg-gray-800 px-4 py-2 text-white shadow-sm hover:bg-gray-700"
-								onClick={() => setQuantity(quantity - 1)}
+								onClick={() => dispatch({ type: "decrement" })}
 								disabled={quantity === 1}
 							>
 								-
@@ -41,7 +50,7 @@ const Product = () => {
 							<p className="text-xl">{quantity}</p>
 							<button
 								className="rounded-md bg-gray-800 px-4 py-2 text-white shadow-sm hover:bg-gray-700"
-								onClick={() => setQuantity(quantity + 1)}
+								onClick={() => dispatch({ type: "increment" })}
 							>
 								+
 							</button>
